@@ -1,7 +1,11 @@
 pipeline {
     agent any
 
-     parameters {
+    tools {
+        terraform 'terraform-v1'
+    }
+
+    parameters {
         booleanParam(name: 'TF_APPLY', defaultValue: false, description: 'Skip terraform apply')
         booleanParam(name: 'TF_DESTROY', defaultValue: false, description: 'Skip terraform destroy')
     }
