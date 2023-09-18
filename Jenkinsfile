@@ -6,8 +6,8 @@ pipeline {
     }
 
     parameters {
-        booleanParam(name: 'TF_APPLY', defaultValue: false, description: 'Skip terraform apply')
-        booleanParam(name: 'TF_DESTROY', defaultValue: false, description: 'Skip terraform destroy')
+        booleanParam(name: 'TF_APPLY', defaultValue: false, description: 'terraform apply')
+        booleanParam(name: 'TF_DESTROY', defaultValue: false, description: 'terraform destroy')
     }
     
     stages {
