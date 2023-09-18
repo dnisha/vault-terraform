@@ -1,17 +1,13 @@
 pipeline {
     agent any
-    
-    tools {
-        terraform 'terraform-v1'
-    }
 
      parameters {
-        booleanParam(name: 'SKIP_TF_APPLY', defaultValue: false, description: 'Skip terraform apply')
-        booleanParam(name: 'SKIP_TF_DESTROY', defaultValue: false, description: 'Skip terraform destroy')
+        booleanParam(name: 'TF_APPLY', defaultValue: false, description: 'Skip terraform apply')
+        booleanParam(name: 'TF_DESTROY', defaultValue: false, description: 'Skip terraform destroy')
     }
     
     stages {
-
+        
         stage('Terraform Initialize') {
 
             steps {
@@ -22,7 +18,7 @@ pipeline {
         stage('Terraform apply') {
 
             when {
-                expression { !params.SKIP_TF_APPLY }
+                expression { params.TF_APPLY }
             }
 
             steps {
@@ -34,7 +30,7 @@ pipeline {
         stage('Terraform destroy') {
 
             when {
-                expression { !params.SKIP_TF_DESTROY }
+                expression { params.TF_DESTROY }
             }
             
             steps {
