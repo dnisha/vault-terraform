@@ -29,39 +29,7 @@ pipeline {
                sh 'terraform apply -auto-approve'
             }
         }
-
-        stage('Get BastianIp') {
-
-            when {
-                expression { params.TF_APPLY }
-            }
-
-            steps {
-
-                sh 'terraform output > infra-output.txt'
-
-                script {
-                    env.BASTION_IP = sh(script: 'awk -F "\"" "/batian_instance_ip/ { print $2 }" infra-output.txt', returnStdout: true).trim()
-                }
-
-            }
-        }
-
-        stage('Use Bastion IP') {
-
-            when {
-                expression { params.TF_APPLY }
-            }
-            
-            steps {
-                script {
-                    def bastionIp = env.BASTION_IP
-
-                    echo "Using Bastion IP in another stage: $bastionIp"
-                }
-            }
-        }
-
+        
         stage('Terraform destroy') {
 
             when {
