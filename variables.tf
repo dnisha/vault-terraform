@@ -73,7 +73,7 @@ variable "batian_instance_map" {
 
   default = {
     "instance-pub-sub-01" = {
-      ami                 = "ami-0f5ee92e2d63afc18"
+      ami                 = "ami-0aba5742cb191ff28"
       key_name            = "gone-servers"
       associate_public_ip = true
       tool                = "batian"
@@ -81,7 +81,7 @@ variable "batian_instance_map" {
   }
 }
 
-variable "private_instance_map" {
+variable "vault_instance_map" {
   type = map(object({
     ami                 = string
     key_name            = string
@@ -90,18 +90,19 @@ variable "private_instance_map" {
   }))
 
   default = {
-    "instance-priv-sub-01" = {
-      ami                 = "ami-0f5ee92e2d63afc18"
-      key_name            = "gone-servers"
-      associate_public_ip = false
-      tool                = "vault"
-    },
-    "instance-priv-sub-02" = {
+    "vault-01" = {
       ami                 = "ami-0f5ee92e2d63afc18"
       key_name            = "gone-servers"
       associate_public_ip = false
       tool                = "vault"
     }
+    # "vault-02" = {
+    #   ami                 = "ami-0f5ee92e2d63afc18"
+    #   key_name            = "gone-servers"
+    #   associate_public_ip = false
+    #   tool                = "vault"
+      
+    # }
   }
 }
 
@@ -197,7 +198,7 @@ variable "priv_ninja_sg" {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["10.0.0.0/24"]
+        cidr_blocks = ["0.0.0.0/0"]
     }]
 
     egress = [
@@ -211,7 +212,7 @@ variable "priv_ninja_sg" {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["10.0.0.0/24"]
+        cidr_blocks = ["0.0.0.0/0"]
     }]
   }
 }
@@ -276,7 +277,7 @@ variable "priv_nacl_rules" {
     {
       protocol    = "tcp"
       rule_action = "allow"
-      cidr_block  = "10.0.0.0/24"
+      cidr_block  = "0.0.0.0/0"
       from_port   = 22
       to_port     = 22
       egress      = false
@@ -306,4 +307,41 @@ variable "priv_nacl_rules" {
       egress      = true
     }
   ]
+}
+
+
+variable "console_instance_az1" {
+  type = map(object({
+    ami                 = string
+    key_name            = string
+    associate_public_ip = bool
+    tool                = string
+  }))
+
+  default = {
+    "console-01" = {
+      ami                 = "ami-0f5ee92e2d63afc18"
+      key_name            = "gone-servers"
+      associate_public_ip = false
+      tool                = "consul"
+    }
+  }
+}
+
+variable "console_instance_az2" {
+  type = map(object({
+    ami                 = string
+    key_name            = string
+    associate_public_ip = bool
+    tool                = string
+  }))
+
+  default = {
+    "console-02" = {
+      ami                 = "ami-0f5ee92e2d63afc18"
+      key_name            = "gone-servers"
+      associate_public_ip = false
+      tool                = "consul"
+    }
+  }
 }
