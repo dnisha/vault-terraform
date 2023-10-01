@@ -30,6 +30,29 @@ pipeline {
             }
         }
 
+        stage('Get BastianIp') {
+
+            steps {
+
+                sh 'rm -rf infra-output.txt'
+                sh 'terraform output > infra-output.txt'
+
+                script {
+                    env.BASTION_IP = sh(script: 'awk -F "\"" "/batian_instance_ip/ { print $2 }" infra-output.txt', returnStdout: true).trim()
+                }
+
+            }
+        }
+
+        stage('Use Bastion IP') {
+            steps {
+                script {
+                    def bastionIp = env.BASTION_IP
+
+                    echo "Using Bastion IP in another stage: $bastionIp"
+                }
+            }
+        }
 
         stage('Terraform destroy') {
 
