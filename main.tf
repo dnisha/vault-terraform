@@ -10,6 +10,7 @@ resource "aws_instance" "public_ec2" {
   key_name                    = each.value.key_name
   vpc_security_group_ids      = var.security_groups
   associate_public_ip_address = each.value.associate_public_ip
+  iam_instance_profile = var.instance_profile
   tags = {
     Name = each.key
     Tool = each.value.tool

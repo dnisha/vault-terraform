@@ -31,3 +31,8 @@ variable "subnet_id" {
   type    = string
   default = "123"
 }
+
+variable "instance_profile" {
+  type    = string
+  default = "jenkins-admin-infra"
+}
