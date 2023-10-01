@@ -32,6 +32,10 @@ pipeline {
 
         stage('Get BastianIp') {
 
+            when {
+                expression { params.TF_APPLY }
+            }
+
             steps {
 
                 sh 'rm -rf infra-output.txt'
@@ -45,6 +49,11 @@ pipeline {
         }
 
         stage('Use Bastion IP') {
+
+            when {
+                expression { params.TF_APPLY }
+            }
+            
             steps {
                 script {
                     def bastionIp = env.BASTION_IP
