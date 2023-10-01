@@ -38,7 +38,6 @@ pipeline {
 
             steps {
 
-                sh 'rm -rf infra-output.txt'
                 sh 'terraform output > infra-output.txt'
 
                 script {
