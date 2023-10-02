@@ -171,7 +171,6 @@ variable "priv_ninja_sg" {
       to_port     = number
       protocol    = string
       cidr_blocks = list(string)
-
     }))
 
     egress = list(object({
@@ -179,19 +178,41 @@ variable "priv_ninja_sg" {
       to_port     = number
       protocol    = string
       cidr_blocks = list(string)
-
     }))
-
   })
 
   default = {
-    name = "ninga_priv_sg"
+    name = "ninja_priv_sg"
 
     ingress = [
       {
         from_port   = 0
-        to_port     = 65535
+        to_port     = 8200
         protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8300
+        to_port     = 8302
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8301
+        to_port     = 8302
+        protocol    = "udp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8500
+        to_port     = 8500
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8600
+        to_port     = 8600
+        protocol    = "udp"
         cidr_blocks = ["0.0.0.0/0"]
       },
       {
@@ -199,7 +220,8 @@ variable "priv_ninja_sg" {
         to_port     = 22
         protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
-    }]
+      }
+    ]
 
     egress = [
       {
@@ -213,9 +235,82 @@ variable "priv_ninja_sg" {
         to_port     = 22
         protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
-    }]
+      }
+    ]
   }
 }
+
+variable "consul_ninja_sg" {
+  type = object({
+    name = string
+
+    ingress = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+    }))
+
+    egress = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+    }))
+  })
+
+  default = {
+    name = "ninja_consul_sg"
+
+    ingress = [
+      {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8300
+        to_port     = 8302
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8301
+        to_port     = 8302
+        protocol    = "udp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8500
+        to_port     = 8500
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 8600
+        to_port     = 8600
+        protocol    = "udp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }]
+
+    egress = [
+      {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+    ]
+  }
+}
+
 
 variable "pub_nacl_rules" {
   type = list(object({
@@ -264,6 +359,52 @@ variable "pub_nacl_rules" {
 }
 
 variable "priv_nacl_rules" {
+  type = list(object({
+    protocol    = string
+    rule_action = string
+    cidr_block  = string
+    from_port   = number
+    to_port     = number
+    egress      = bool
+  }))
+
+  default = [
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 22
+      to_port     = 22
+      egress      = false
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 0
+      to_port     = 65535
+      egress      = false
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 1024
+      to_port     = 65535
+      egress      = true
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 0
+      to_port     = 65535
+      egress      = true
+    }
+  ]
+}
+
+variable "consul_nacl_rules" {
   type = list(object({
     protocol    = string
     rule_action = string

@@ -43,7 +43,7 @@ module "vault_instance" {
 
 module "console_instance_az1" {
   source          = "git::https://github.com/dnisha/vault-terraform.git?ref=ec2-module"
-  security_groups = module.priv_security.sg_id
+  security_groups = module.consul_security.sg_id
   subnet_id       = module.network.console_subnet_id
   instance_map    = var.console_instance_az1
   instance_profile = module.instance_iam.console_role_name
@@ -51,7 +51,7 @@ module "console_instance_az1" {
 
 module "console_instance_az2" {
   source          = "git::https://github.com/dnisha/vault-terraform.git?ref=ec2-module"
-  security_groups = module.priv_security.sg_id
+  security_groups = module.consul_security.sg_id
   subnet_id       = module.network.console_subnet_id2
   instance_map    = var.console_instance_az2
   instance_profile = module.instance_iam.console_role_name
