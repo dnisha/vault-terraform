@@ -5,4 +5,3 @@ output "sg_id" {
 output "nacl_id" {
   value = aws_network_acl.ninja_nacl.id
 }
-
