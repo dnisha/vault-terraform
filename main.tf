@@ -49,7 +49,7 @@ resource "aws_launch_configuration" "vault_lc" {
   image_id      = var.vault_ami
   instance_type = "t2.micro"
   iam_instance_profile = "vault_profile"
-  security_groups             = var.public_sg_list
+  security_groups             = var.vault_sg_list
   key_name                    = "gone-servers"
   associate_public_ip_address = false
 
