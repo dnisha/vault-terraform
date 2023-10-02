@@ -101,7 +101,7 @@ variable "vault_instance_map" {
     #   key_name            = "gone-servers"
     #   associate_public_ip = false
     #   tool                = "vault"
-      
+
     # }
   }
 }
@@ -292,7 +292,7 @@ variable "consul_ninja_sg" {
         to_port     = 8600
         protocol    = "udp"
         cidr_blocks = ["0.0.0.0/0"]
-      }]
+    }]
 
     egress = [
       {
