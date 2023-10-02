@@ -72,20 +72,20 @@ resource "aws_route" "subnet_public_route" {
 }
 
 resource "aws_route" "subnet_private_route" {
-  for_each          = aws_nat_gateway.ninja_nat_gateway
+  for_each               = aws_nat_gateway.ninja_nat_gateway
   route_table_id         = aws_route_table.priv_ninja_rt.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_nat_gateway.ninja_nat_gateway[each.key].id
 }
 
 resource "aws_route_table_association" "public_subnet_association" {
-  for_each          = aws_subnet.pub_ninja_subnet
+  for_each       = aws_subnet.pub_ninja_subnet
   subnet_id      = aws_subnet.pub_ninja_subnet[each.key].id
   route_table_id = aws_route_table.pub_ninja_rt.id
 }
 
 resource "aws_route_table_association" "private_subnet_association" {
-  for_each          = aws_subnet.priv_ninja_subnet
+  for_each       = aws_subnet.priv_ninja_subnet
   subnet_id      = aws_subnet.priv_ninja_subnet[each.key].id
   route_table_id = aws_route_table.priv_ninja_rt.id
 }

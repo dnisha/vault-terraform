@@ -55,3 +55,11 @@ output "vault_subnet_ids" {
     subnet.id if can(regex("^ninja-priv-sub-0[12]", subnet.tags.Name))
   ]
 }
+
+output "consul_subnet_ids" {
+  description = "List of consul subnet IDs"
+  value = [
+    for subnet in aws_subnet.priv_ninja_subnet :
+    subnet.id if can(regex("^ninja-priv-sub-0[34]", subnet.tags.Name))
+  ]
+}
