@@ -18,7 +18,7 @@ module "priv_security" {
   vpc_id         = module.network.ninja_vpc_id
   nacl_rules     = var.priv_nacl_rules
   security_group = var.priv_ninja_sg
-  subnet_id_list = module.network.priv_subnet_id_list
+  subnet_id_list = module.network.vault_subnet_ids
 }
 
 module "consul_security" {
